@@ -29,6 +29,10 @@ export class WcAssignment extends LitElement {
       flex-grow: 1;
     }
 
+    h3 {
+      color: #ff6200;
+    }
+
     select {
       padding: 10px;
       width: 100px;
@@ -45,6 +49,7 @@ export class WcAssignment extends LitElement {
       <main>
         <h3>${this.title}</h3>
         <div class="storySelect">
+          Select category:
           <select name="storyType" id="storyType" @change=${this.handleChange}>
             ${this.stories.map(
               story => html`<option value=${story}>${story}</option>`

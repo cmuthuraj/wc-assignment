@@ -24,10 +24,15 @@ export class ListView extends LitElement {
       color: black;
     }
 
+    .story-type {
+      font-size: 14px;
+      margin-top: 30px;
+    }
+
     .list-item--description {
       font-size: 12px;
       padding-left: 15px;
-      font-weight: 300;
+      font-weight: 500;
     }
 
     button {

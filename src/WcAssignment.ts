@@ -1,10 +1,14 @@
 import { LitElement, html, css } from 'lit';
 import { property } from 'lit/decorators.js';
-
-const logo = new URL('../../assets/open-wc-logo.svg', import.meta.url).href;
+import './story-select.js';
+import './list-view.js';
 
 export class WcAssignment extends LitElement {
-  @property({ type: String }) title = 'My app';
+  @property({ type: String }) title = 'ING front-end assignment';
+
+  @property({ type: Array }) stories = ['Top', 'New', 'Best', 'Ask', 'Show'];
+
+  @property({ type: String }) selectedStory = 'Top';
 
   static styles = css`
     :host {
@@ -18,63 +22,37 @@ export class WcAssignment extends LitElement {
       max-width: 960px;
       margin: 0 auto;
       text-align: center;
-      background-color: var(--wc-assignment-background-color);
+      font-family: 'Roboto', sans-serif;
     }
 
     main {
       flex-grow: 1;
     }
 
-    .logo {
-      margin-top: 36px;
-      animation: app-logo-spin infinite 20s linear;
-    }
-
-    @keyframes app-logo-spin {
-      from {
-        transform: rotate(0deg);
-      }
-      to {
-        transform: rotate(360deg);
-      }
-    }
-
-    .app-footer {
-      font-size: calc(12px + 0.5vmin);
-      align-items: center;
-    }
-
-    .app-footer a {
-      margin-left: 5px;
+    select {
+      padding: 10px;
+      width: 100px;
     }
   `;
+
+  handleChange(event: Event) {
+    const story = event.target as HTMLSelectElement;
+    this.selectedStory = story.value;
+  }
 
   render() {
     return html`
       <main>
-        <div class="logo"><img alt="open-wc logo" src=${logo} /></div>
-        <h1>${this.title}</h1>
-
-        <p>Edit <code>src/WcAssignment.ts</code> and save to reload.</p>
-        <a
-          class="app-link"
-          href="https://open-wc.org/guides/developing-components/code-examples"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Code examples
-        </a>
+        <h3>${this.title}</h3>
+        <div class="storySelect">
+          <select name="storyType" id="storyType" @change=${this.handleChange}>
+            ${this.stories.map(
+              story => html`<option value=${story}>${story}</option>`
+            )}
+          </select>
+        </div>
+        <list-view .storyType=${this.selectedStory}></list-view>
       </main>
-
-      <p class="app-footer">
-        🚽 Made with love by
-        <a
-          target="_blank"
-          rel="noopener noreferrer"
-          href="https://github.com/open-wc"
-          >open-wc</a
-        >.
-      </p>
     `;
   }
 }

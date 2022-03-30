@@ -7,7 +7,7 @@ export class ListView extends LitElement {
 
   @property({ type: Array }) stories: any[] = [];
 
-  @property({ type: String }) selectedStory = '';
+  @property({ type: Object }) selectedStory: any;
 
   static styles = css`
     :host {
@@ -15,41 +15,18 @@ export class ListView extends LitElement {
       margin: 0 auto;
       text-align: left;
     }
-
-    .list-item {
-      font-size: 14px;
-      font-weight: 600;
-      line-height: 24px;
-      padding: 8px 0;
-      color: black;
-    }
-
-    .story-type {
-      font-size: 14px;
-      margin-top: 30px;
-    }
-
-    .list-item--description {
-      font-size: 12px;
-      padding-left: 15px;
-      font-weight: 500;
-    }
-
-    button {
-      border: none;
-      background-color: transparent;
-      color: #ff6200;
-      padding-left: 15px;
-    }
-
-    @media only screen and (max-width: 600px) {
-      .story-type,
-      .list-item {
-        width: auto;
-        margin: 0 30px;
-      }
-    }
   `;
+
+  static async fetchData(type: string, value: string) {
+    let apiUrl = 'https://hacker-news.firebaseio.com/v0/';
+    apiUrl +=
+      type === 'list'
+        ? `${value.toLowerCase()}stories.json`
+        : `item/${value}.json`;
+    fetch(apiUrl)
+      .then(response => response.json())
+      .then(data => data);
+  }
 
   update(changedProperties: Map<string, unknown>) {
     if (changedProperties.has('storyType')) {
@@ -78,31 +55,10 @@ export class ListView extends LitElement {
     }
   }
 
-  handleStoryClick = (story: any) => {
-    this.selectedStory = story.id;
-    this.dispatchEvent(
-      new CustomEvent('story-clicked', {
-        detail: { story },
-      })
-    );
-
-    // TODO: Fetch kids items for that story and display the details
-  };
-
   render() {
     return html`
-      <div class="story-type">${this.storyType} Stories</div>
       ${this.stories.map(
-        (story, index) =>
-          html`<div class="list-item">
-            <div class="list-item--title">${index + 1}. ${story.title}</div>
-            <div class="list-item--description">
-              ${story.score} points by ${story.by}
-            </div>
-            <button @click=${() => this.handleStoryClick(story)}>
-              Show Details
-            </button>
-          </div>`
+        story => html` <item-view .story=${story}></item-view> `
       )}
     `;
   }

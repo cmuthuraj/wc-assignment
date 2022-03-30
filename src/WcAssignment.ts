@@ -6,8 +6,6 @@ import './list-view.js';
 export class WcAssignment extends LitElement {
   @property({ type: String }) title = 'ING front-end assignment';
 
-  @property({ type: Array }) stories = ['Top', 'New', 'Best', 'Ask', 'Show'];
-
   @property({ type: String }) selectedStory = 'Top';
 
   static styles = css`
@@ -32,30 +30,17 @@ export class WcAssignment extends LitElement {
     h3 {
       color: #ff6200;
     }
-
-    select {
-      padding: 10px;
-      width: 100px;
-    }
   `;
 
-  handleChange(event: Event) {
-    const story = event.target as HTMLSelectElement;
-    this.selectedStory = story.value;
+  handleChange(event: CustomEvent) {
+    this.selectedStory = event.detail;
   }
 
   render() {
     return html`
       <main>
         <h3>${this.title}</h3>
-        <div class="storySelect">
-          Select category:
-          <select name="storyType" id="storyType" @change=${this.handleChange}>
-            ${this.stories.map(
-              story => html`<option value=${story}>${story}</option>`
-            )}
-          </select>
-        </div>
+        <story-select @story-type-change=${this.handleChange}></story-select>
         <list-view .storyType=${this.selectedStory}></list-view>
       </main>
     `;

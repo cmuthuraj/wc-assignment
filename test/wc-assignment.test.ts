@@ -10,10 +10,10 @@ describe('WcAssignment', () => {
     element = await fixture(html`<wc-assignment></wc-assignment>`);
   });
 
-  it('renders a h1', () => {
-    const h1 = element.shadowRoot!.querySelector('h1')!;
-    expect(h1).to.exist;
-    expect(h1.textContent).to.equal('My app');
+  it('renders a h3', () => {
+    const h3 = element.shadowRoot!.querySelector('h3')!;
+    expect(h3).to.exist;
+    expect(h3.textContent).to.equal('ING front-end assignment');
   });
 
   it('passes the a11y audit', async () => {

@@ -12,6 +12,7 @@ export class StorySelect extends LitElement {
       margin: 20px 0;
     }
     select {
+      margin-left: 5px;
       padding: 8px;
       width: 100px;
     }
@@ -31,7 +32,7 @@ export class StorySelect extends LitElement {
   render() {
     return html`
       <div class="storySelect">
-        Select category:
+        <label for="storyType">Select story category</label>
         <select name="storyType" id="storyType" @change=${this.handleChange}>
           ${this.stories.map(
             story => html`<option value=${story}>${story}</option>`
